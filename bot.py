@@ -21,7 +21,7 @@ async def help_func(message: types.Message):
     await message.reply(HELP)
 
 
-# Прототип. Сейчас отправляет одно и то же фото через API
+# Прототип. Работает и отправляет фото!!! Через API
 @dp.message(or_f(Command(commands=['photo']), Text(startswith=['Хочу котика', 'Давай кота'], ignore_case=True)))
 async def kittens(message):
     get_a_cat()
