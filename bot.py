@@ -1,6 +1,6 @@
 # Импортируем все необходимое
 from aiogram import Bot, Dispatcher, types
-from Data.config import TOKEN
+from Data.config import TOKEN, users, admin
 from aiogram.filters import Command, Text, or_f
 from Data.lexica import START, HELP
 from funcs import get_a_cat
@@ -9,11 +9,15 @@ from funcs import get_a_cat
 # Объявляем необходимые переменные
 bot = Bot(TOKEN)
 dp = Dispatcher()
-
+n = 0
 
 @dp.message(Command(commands=['start']))  # Реагирует на комманду старт
 async def echo(message: types.Message):
     await message.reply(START)
+    if message.from_user.id not in users: #and message.from_user.id != admin:
+        users[f'id{int(n)}'] = [message.from_user.id]
+        print(users)
+
 
 
 @dp.message(Command(commands=['help']))  # Реагирует на комманду помощь

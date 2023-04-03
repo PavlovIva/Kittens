@@ -1,7 +1,9 @@
 import requests
 import random
 from Data.lexica import PHOTO
-from Data.config import TOKEN
+from Data.config import TOKEN, admin, users
+
+
 
 
 # Получает id фото
@@ -15,7 +17,7 @@ def get_a_cat1():
 # Отправляет фото кота боту через API
 def get_a_cat():
     caption = PHOTO[random.randint(0, (len(PHOTO) - 1))]
-    response = requests.get(f'https://api.telegram.org/bot{TOKEN}/sendPhoto?chat_id=867978028&caption={caption}&photo=http://random.cat/view/{str(random.randint(0, 1677))}')
+    response = requests.get(f'https://api.telegram.org/bot{TOKEN}/sendPhoto?chat_id={admin}&caption={caption}&photo=http://random.cat/view/{str(random.randint(0, 1677))}')
     response.raise_for_status()
 
 
