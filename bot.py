@@ -34,22 +34,23 @@ async def kittens(message: types.Message):
 @dp.message(Command(commands='like'))
 async def like(message: types.Message):
     idd = get_a_catt.photo_id()
-    message_ids.append(idd)
+    message_ids[message.from_user.id] = {}
+    message_ids[message.from_user.id][1] = idd
     await message.reply('Фото добавлено!')
-    print(message_ids)
+    print(message_ids[message.from_user.id])
 
 
 # Отправляет понравившиеся фото
 @dp.message(Command(commands='watchlike'))
 async def watch_like(message: types.Message):
-    await bot.forward_message(message.from_user.id, message.from_user.id, message_ids[-1])
+    await bot.forward_message(message.from_user.id, message.from_user.id, message_ids[message.from_user.id][1])
 
 
-# По идее, должно выключать бот
+'''# По идее, должно выключать бот
 @dp.message(and_f(lambda msg: msg.from_user.id == admin), Command(commands='stop'))
 async def stop_work(message: types.Message):
     pass
-
+'''
 
 # Показывает кол-во пользователей админу.
 @dp.message(and_f(lambda msg: msg.from_user.id == admin), Command(commands='stat'))
