@@ -19,6 +19,7 @@ class GetCat:
 
     def __init__(self):
         self.message_id = 0
+        self.count_like = 0
 
     # Отправка фото через Telegram API
     def get_a_cat(self, message_from_user_id):
@@ -30,4 +31,11 @@ class GetCat:
     # Возвращение айди сообщения
     def photo_id(self):
         return self.message_id
+
+    def count_likes(self):
+        self.count_like += 1
+        return self.count_like
+
+
+
 

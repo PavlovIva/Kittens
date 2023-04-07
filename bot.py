@@ -1,6 +1,6 @@
 # Импортируем все необходимое
 from aiogram import Bot, Dispatcher, types
-from Data.config import TOKEN, message_ids, admin, users
+from Data.config import TOKEN, message_ids, admin, users, for_likes_count
 from aiogram.filters import Command, Text, or_f, and_f
 from Data.lexica import START, HELP
 from funcs import GetCat
@@ -12,9 +12,11 @@ dp = Dispatcher()
 get_a_catt = GetCat()
 
 
+
 @dp.message(Command(commands=['start']))  # Реагирует на комманду старт
 async def start_react(message: types.Message):
     await message.reply(START)
+    for_likes_count[message.from_user.id] = 0
     if message.from_user.id != admin and message.from_user.id not in users:
         users.append(message.from_user.id)
 
@@ -34,10 +36,13 @@ async def kittens(message: types.Message):
 @dp.message(Command(commands='like'))
 async def like(message: types.Message):
     idd = get_a_catt.photo_id()
-    message_ids[message.from_user.id] = {}
-    message_ids[message.from_user.id][1] = idd
+    for_likes_count[message.from_user.id] += 1
+    if message.from_user.id not in message_ids:
+        message_ids[message.from_user.id] = {}
+        print('yes')
+    message_ids[message.from_user.id][for_likes_count[message.from_user.id]] = idd
     await message.reply('Фото добавлено!')
-    print(message_ids[message.from_user.id])
+    print(message_ids)
 
 
 # Отправляет понравившиеся фото
