@@ -44,13 +44,19 @@ async def like(message: types.Message):
     print(message_ids)
 
 
+@dp.message(Command(commands='see_liked'))  # Показывает кол-во избраныых картинок
+async def see_liked(message: types.Message):
+    await message.answer(str(len(message_ids[message.from_user.id])))
+
+
 # Отправляет понравившиеся фото
 @dp.message(or_f(Command(commands='watchlike'), Text(contains='watchlike')))
 async def watch_like(message: types.Message):
     num = message.text[-1]
     if num.isdigit():
         int(num)
-    else: await message.reply('Invalid input')
+    else:
+        await message.reply('Invalid input')
     await bot.forward_message(message.from_user.id, message.from_user.id, message_ids[message.from_user.id][int(num)])
 
 
