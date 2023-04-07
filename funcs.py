@@ -35,7 +35,3 @@ class GetCat:
     def count_likes(self):
         self.count_like += 1
         return self.count_like
-
-
-
-

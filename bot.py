@@ -12,7 +12,6 @@ dp = Dispatcher()
 get_a_catt = GetCat()
 
 
-
 @dp.message(Command(commands=['start']))  # Реагирует на комманду старт
 async def start_react(message: types.Message):
     await message.reply(START)
@@ -46,9 +45,13 @@ async def like(message: types.Message):
 
 
 # Отправляет понравившиеся фото
-@dp.message(Command(commands='watchlike'))
+@dp.message(or_f(Command(commands='watchlike'), Text(contains='watchlike')))
 async def watch_like(message: types.Message):
-    await bot.forward_message(message.from_user.id, message.from_user.id, message_ids[message.from_user.id][1])
+    num = message.text[-1]
+    if num.isdigit():
+        int(num)
+    else: await message.reply('Invalid input')
+    await bot.forward_message(message.from_user.id, message.from_user.id, message_ids[message.from_user.id][int(num)])
 
 
 '''# По идее, должно выключать бот
@@ -56,6 +59,7 @@ async def watch_like(message: types.Message):
 async def stop_work(message: types.Message):
     pass
 '''
+
 
 # Показывает кол-во пользователей админу.
 @dp.message(and_f(lambda msg: msg.from_user.id == admin), Command(commands='stat'))
